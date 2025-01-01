@@ -5,7 +5,7 @@ services:
     plan: "free"
     region: "frankfurt"
     runtime: "docker"
-    dockerContext: "."
+    dockerContext: "./"
     dockerfilePath: "./backend/Dockerfile"
     # envVars:
     #   - key: "DATABASE_URL"

@@ -22,5 +22,5 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 applicationrunner
 USER applicationrunner
 COPY --from=installer --chown=applicationrunner:nodejs /usr/src/app ./
-WORKDIR /usr/src/app/apps/backend
+WORKDIR /usr/src/app/backend
 CMD ["node", "--import=tsx", "./src/server.ts"]

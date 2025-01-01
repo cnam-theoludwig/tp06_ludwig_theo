@@ -2,11 +2,9 @@ const beforeTimeMs = performance.now()
 
 import util from "node:util"
 import prettyMilliseconds from "pretty-ms"
-import packageJSON from "../package.json" with { type: "json" }
-import { application } from "./application.ts"
-import { HOST, PORT } from "./configuration.ts"
 
-export const VERSION = packageJSON.version
+import { application } from "./application.ts"
+import { HOST, PORT, VERSION } from "./configuration.ts"
 
 const address = await application.listen({
   port: PORT,
