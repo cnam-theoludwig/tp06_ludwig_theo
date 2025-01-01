@@ -16,3 +16,6 @@ await application.register(fastifyHelmet, {
 await application.register(
   (await import("./services/products/get.ts")).getProducts,
 )
+await application.register(
+  (await import("./services/categories/get.ts")).getCategories,
+)

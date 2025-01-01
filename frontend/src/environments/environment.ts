@@ -1,5 +1,7 @@
+const apiBaseURL = "https://cnamtp06-backend.onrender.com"
+
 export const environment = {
   production: true,
-  apiURLProducts: "/mocks/products.json",
-  apiURLCategories: "/mocks/categories.json",
+  apiURLProducts: `${apiBaseURL}/products`,
+  apiURLCategories: `${apiBaseURL}/categories`,
 }

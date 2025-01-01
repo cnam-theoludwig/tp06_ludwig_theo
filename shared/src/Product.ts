@@ -6,3 +6,7 @@ export interface Product {
   imageURL: string
   categoryId: number
 }
+
+export interface ProductWithQuantity extends Product {
+  quantity: number
+}

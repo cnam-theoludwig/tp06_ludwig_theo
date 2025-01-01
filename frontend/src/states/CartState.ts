@@ -6,9 +6,7 @@ import {
   CartEditProductQuantity,
   CartRemoveProduct,
 } from "../actions/CartActions"
-import type { Cart } from "../models/cart"
-import type { ProductWithQuantity } from "../models/product"
-import type { Product } from "@repo/shared/models"
+import type { Product, ProductWithQuantity, Cart } from "@repo/shared/models"
 
 @State<Cart>({
   name: "cart",

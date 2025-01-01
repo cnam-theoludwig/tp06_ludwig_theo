@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core"
 import type { OnInit } from "@angular/core"
 import { FormsModule } from "@angular/forms"
 import { Observable } from "rxjs"
-import type { Category } from "../../models/category"
+import type { Category } from "@repo/shared/models"
 import { ApiService } from "../../services/api.service"
 import { SelectDirective } from "../../directives/select/select.directive"
 

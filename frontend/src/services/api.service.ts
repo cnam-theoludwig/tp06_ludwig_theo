@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { map, Observable } from "rxjs"
 import { environment } from "../environments/environment"
-import type { Category } from "../models/category"
-import type { Product } from "@repo/shared/models"
+import type { Product, Category } from "@repo/shared/models"
 
 interface GetProductsInput {
   search?: string
