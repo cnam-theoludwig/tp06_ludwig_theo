@@ -1,0 +1,23 @@
+services:
+  - type: "web"
+    name: "cnamTP06-backend"
+    repo: "https://github.com/cnam-theoludwig/tp06_ludwig_theo.git"
+    plan: "free"
+    region: "frankfurt"
+    runtime: "docker"
+    dockerContext: "."
+    dockerfilePath: "./backend/Dockerfile"
+    # envVars:
+    #   - key: "DATABASE_URL"
+    #     fromDatabase:
+    #       name: "cnamTP06-database"
+    #       property: "connectionString"
+  - type: "web"
+    name: "cnamTP06"
+    runtime: "static"
+    repo: "https://github.com/cnam-theoludwig/tp06_ludwig_theo.git"
+    buildCommand: "npm clean-install; npm run build"
+    staticPublishPath: "./frontend/dist/tp06_ludwig_theo/browser"
+# databases:
+#   - name: "cnamTP06-database"
+#     plan: "free"

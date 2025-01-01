@@ -1,0 +1,40 @@
+{
+  "name": "@repo/backend",
+  "version": "0.0.0-develop",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cnam-theoludwig/tp06_ludwig_theo.git"
+  },
+  "scripts": {
+    "start": "node --import=tsx --env-file=.env ./src/server.ts",
+    "dev": "node --import=tsx --env-file=.env --watch --watch-preserve-output ./src/server.ts",
+    "lint:typescript": "tsc --noEmit",
+    "lint:eslint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "@repo/shared": "*",
+    "tsx": "4.19.2",
+    "zod": "3.24.1",
+    "fastify": "5.2.0",
+    "@fastify/cors": "10.0.1",
+    "@fastify/helmet": "13.0.0",
+    "@fastify/sensible": "6.0.2",
+    "pretty-ms": "9.2.0",
+    "jsonwebtoken": "9.0.2"
+  },
+  "devDependencies": {
+    "@total-typescript/ts-reset": "0.6.1",
+    "@types/jsonwebtoken": "9.0.7",
+    "@types/node": "22.10.3",
+    "eslint": "9.17.0",
+    "eslint-config-conventions": "18.0.0",
+    "eslint-plugin-import-x": "4.6.1",
+    "eslint-plugin-promise": "7.2.1",
+    "eslint-plugin-unicorn": "56.0.1",
+    "globals": "15.14.0",
+    "typescript": "5.5.4",
+    "typescript-eslint": "8.19.0"
+  }
+}

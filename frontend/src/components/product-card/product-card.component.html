@@ -1,0 +1,47 @@
+<li
+  class="bg-white border-gray-darker/70 border shadow-lg rounded-lg overflow-hidden flex flex-col h-full"
+>
+  <img
+    [src]="product.imageURL"
+    [alt]="product.title"
+    class="w-full h-52 object-cover"
+  />
+  <div class="p-4 flex flex-col justify-between grow space-y-2">
+    <h3>{{ product.title }}</h3>
+    <p class="text-sm text-gray-600 overflow-hidden line-clamp-2">
+      {{ product.description }}
+    </p>
+    <p class="text-xl text-center font-bold text-gray-800">
+      {{ product.priceCents / 100 | currency: "EUR" }}
+    </p>
+    <button appButton type="button" (click)="addToCart()">
+      <span class="mr-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-shopping-cart"
+        >
+          <circle cx="8" cy="21" r="1" />
+          <circle cx="19" cy="21" r="1" />
+          <path
+            d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+          />
+        </svg>
+      </span>
+      <span class="min-w-fit">
+        Ajouter au panier
+
+        @if (productQuantity$ | async; as productQuantity) {
+          <span>({{ productQuantity }})</span>
+        }
+      </span>
+    </button>
+  </div>
+</li>

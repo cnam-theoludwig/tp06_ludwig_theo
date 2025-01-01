@@ -1,0 +1,34 @@
+{
+  "name": "tp06-ludwig-theo",
+  "version": "0.0.0-develop",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cnam-theoludwig/tp06_ludwig_theo.git"
+  },
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "start": "turbo run start --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint:typescript": "turbo run lint:typescript",
+    "lint:eslint": "turbo run lint:eslint",
+    "lint:prettier": "prettier . --check"
+  },
+  "devDependencies": {
+    "prettier": "3.4.2",
+    "turbo": "2.3.3",
+    "typescript": "5.5.4"
+  },
+  "packageManager": "npm@10.9.2+sha512.8ab88f10f224a0c614cb717a7f7c30499014f77134120e9c1f0211ea3cf3397592cbe483feb38e0c4b3be1c54e347292c76a1b5edb94a3289d5448484ab8ac81"
+}
