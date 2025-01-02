@@ -4,7 +4,7 @@ import type { OnInit } from "@angular/core"
 import { FormsModule } from "@angular/forms"
 import { Observable } from "rxjs"
 import type { Category } from "@repo/shared/models"
-import { ApiService } from "../../services/api.service"
+import { ProductsCatalogService } from "../../services/products-catalog.service"
 import { SelectDirective } from "../../directives/select/select.directive"
 
 @Component({
@@ -17,7 +17,7 @@ import { SelectDirective } from "../../directives/select/select.directive"
 export class SelectCategoryComponent implements OnInit {
   public categories$!: Observable<Category[]>
 
-  public constructor(private readonly apiService: ApiService) {}
+  public constructor(private readonly apiService: ProductsCatalogService) {}
 
   public ngOnInit(): void {
     this.categories$ = this.apiService.getCategories()

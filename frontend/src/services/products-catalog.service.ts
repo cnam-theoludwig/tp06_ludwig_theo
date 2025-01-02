@@ -12,7 +12,7 @@ interface GetProductsInput {
 @Injectable({
   providedIn: "root",
 })
-export class ApiService {
+export class ProductsCatalogService {
   public constructor(private readonly http: HttpClient) {}
 
   public getProducts(input: GetProductsInput = {}): Observable<Product[]> {

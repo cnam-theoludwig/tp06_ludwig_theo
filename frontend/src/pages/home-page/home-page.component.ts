@@ -15,7 +15,7 @@ import { ProductListSkeletonComponent } from "../../components/product-list-skel
 import { ProductListComponent } from "../../components/product-list/product-list.component"
 import { SelectCategoryComponent } from "../../components/select-category/select-category.component"
 import type { Product } from "@repo/shared/models"
-import { ApiService } from "../../services/api.service"
+import { ProductsCatalogService } from "../../services/products-catalog.service"
 
 @Component({
   selector: "app-home-page",
@@ -44,7 +44,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private queryParamsSubscription = new Subscription()
 
   public constructor(
-    private readonly apiService: ApiService,
+    private readonly apiService: ProductsCatalogService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
   ) {}
