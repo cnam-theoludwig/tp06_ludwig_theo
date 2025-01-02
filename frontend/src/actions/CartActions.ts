@@ -1,4 +1,4 @@
-import type { Product } from "@repo/shared/models"
+import type { Product } from "@repo/shared/Product"
 
 export class CartAddProduct {
   public static readonly type = "[Cart] Add Product"

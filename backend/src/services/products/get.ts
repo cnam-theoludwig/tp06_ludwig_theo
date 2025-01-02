@@ -1,5 +1,5 @@
 import type { FastifyPluginAsync } from "fastify"
-import type { Product } from "@repo/shared/models"
+import type { Product } from "@repo/shared/Product"
 
 export const getProducts: FastifyPluginAsync = async (fastify) => {
   fastify.route({

@@ -2,7 +2,8 @@ import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { map, Observable } from "rxjs"
 import { environment } from "../environments/environment"
-import type { Product, Category } from "@repo/shared/models"
+import type { Product } from "@repo/shared/Product"
+import type { Category } from "@repo/shared/Category"
 
 interface GetProductsInput {
   search?: string
@@ -17,7 +18,7 @@ export class ProductsCatalogService {
 
   public getProducts(input: GetProductsInput = {}): Observable<Product[]> {
     const { search = "", categoryId } = input
-    return this.http.get<Product[]>(environment.apiURLProducts).pipe(
+    return this.http.get<Product[]>(`${environment.apiBaseURL}/products`).pipe(
       map((products) => {
         return products.filter((product) => {
           const matchesSearch = product.title
@@ -32,6 +33,6 @@ export class ProductsCatalogService {
   }
 
   public getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(environment.apiURLCategories)
+    return this.http.get<Category[]>(`${environment.apiBaseURL}/categories`)
   }
 }

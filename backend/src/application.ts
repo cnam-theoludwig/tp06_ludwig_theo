@@ -14,8 +14,22 @@ await application.register(fastifyHelmet, {
 })
 
 await application.register(
-  (await import("./services/products/get.ts")).getProducts,
+  (await import("./services/categories/get.ts")).getCategories,
+)
+
+await application.register(
+  (await import("./services/customer/sign-in/post.ts")).postCustomerSignIn,
 )
 await application.register(
-  (await import("./services/categories/get.ts")).getCategories,
+  (await import("./services/customer/sign-up/post.ts")).postCustomerSignUp,
+)
+await application.register(
+  (await import("./services/customer/get.ts")).getAuthenticatedCustomer,
+)
+await application.register(
+  (await import("./services/customer/put.ts")).putCustomerUpdate,
+)
+
+await application.register(
+  (await import("./services/products/get.ts")).getProducts,
 )

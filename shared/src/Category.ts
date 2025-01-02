@@ -1,4 +1,6 @@
+import type { Entity } from "./Entity"
+
 export interface Category {
-  id: number
+  id: Entity["id"]
   title: string
 }

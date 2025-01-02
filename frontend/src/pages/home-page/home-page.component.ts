@@ -14,7 +14,7 @@ import { InputSearchComponent } from "../../components/input-search/input-search
 import { ProductListSkeletonComponent } from "../../components/product-list-skeleton/product-list-skeleton.component"
 import { ProductListComponent } from "../../components/product-list/product-list.component"
 import { SelectCategoryComponent } from "../../components/select-category/select-category.component"
-import type { Product } from "@repo/shared/models"
+import type { Product } from "@repo/shared/Product"
 import { ProductsCatalogService } from "../../services/products-catalog.service"
 
 @Component({

@@ -3,7 +3,7 @@ import { Component, inject } from "@angular/core"
 import { Store } from "@ngxs/store"
 import { Observable } from "rxjs"
 import { CartEmptyComponent } from "../../components/cart-empty/cart-empty.component"
-import type { ProductWithQuantity } from "@repo/shared/models"
+import type { ProductWithQuantity } from "@repo/shared/Product"
 import { CartState } from "../../states/CartState"
 import {
   CartAddProduct,

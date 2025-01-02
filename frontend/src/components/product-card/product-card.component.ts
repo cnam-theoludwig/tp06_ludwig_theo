@@ -5,7 +5,7 @@ import { Store } from "@ngxs/store"
 import { Observable } from "rxjs"
 import { CartAddProduct } from "../../actions/CartActions"
 import { ButtonDirective } from "../../directives/button/button.directive"
-import type { Product } from "@repo/shared/models"
+import type { Product } from "@repo/shared/Product"
 import { CartState } from "../../states/CartState"
 
 @Component({

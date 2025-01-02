@@ -4,7 +4,12 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./models": "./src/_models.ts"
+    "./Cart": "./src/Cart.ts",
+    "./Category": "./src/Category.ts",
+    "./Customer": "./src/Customer.ts",
+    "./Entity": "./src/Entity.ts",
+    "./Product": "./src/Product.ts",
+    "./utils": "./src/utils.ts"
   },
   "scripts": {
     "lint:typescript": "tsc --noEmit",
