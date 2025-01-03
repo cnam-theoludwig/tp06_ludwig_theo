@@ -3,6 +3,7 @@ import path from "node:path"
 
 export const NODE_ENV = process.env["NODE_ENV"] ?? "development"
 export const IS_PRODUCTION = NODE_ENV === "production"
+console.log(`NODE_ENV: "${NODE_ENV}", IS_PRODUCTION: ${IS_PRODUCTION}`)
 
 if (!IS_PRODUCTION) {
   const envRootPath = path.join(process.cwd(), ".env")
@@ -31,3 +32,8 @@ export const DATABASE_DEBUG = process.env["DATABASE_DEBUG"] === "true"
 export const DATABASE_URL =
   process.env["DATABASE_URL"] ??
   `postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}`
+
+console.log({
+  DATABASE_URL,
+  DATABASE_DEBUG,
+})

@@ -11,7 +11,7 @@ import type { Database } from "./types.ts"
 
 const dialect = new PostgresJSDialect({
   postgres: postgres(DATABASE_URL, {
-    ssl: IS_PRODUCTION,
+    ...(IS_PRODUCTION ? { ssl: { rejectUnauthorized: false } } : {}),
     types: {
       // Numbers, bigint, numeric:
       // - https://github.com/porsager/postgres#numbers-bigint-numeric
