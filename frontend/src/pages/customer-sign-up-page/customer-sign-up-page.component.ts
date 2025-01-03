@@ -1,9 +1,11 @@
 import type { OnInit } from "@angular/core"
-import { Component, signal } from "@angular/core"
+import { Component } from "@angular/core"
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms"
 import { RouterLink } from "@angular/router"
 import type { CustomerSignUp } from "@repo/shared/Customer"
 import { CustomerZod } from "@repo/shared/Customer"
+import type { Status } from "@repo/shared/utils"
+import { SpinnerComponent } from "../../components/spinner/spinner.component"
 import { ButtonDirective } from "../../directives/button/button.directive"
 import { InputDirective } from "../../directives/input/input.directive"
 import { LabelDirective } from "../../directives/label/label.directive"
@@ -21,6 +23,7 @@ import { zodValidator } from "../../utils/zodValidator"
     SelectDirective,
     ReactiveFormsModule,
     RouterLink,
+    SpinnerComponent,
   ],
   templateUrl: "./customer-sign-up-page.component.html",
   styleUrl: "./customer-sign-up-page.component.css",
@@ -49,24 +52,20 @@ export class CustomerSignUpPageComponent implements OnInit {
     ),
   })
 
-  private readonly _isSuccess = signal(false)
-  public get isSuccess(): boolean {
-    return this._isSuccess()
-  }
+  public status: Status = "idle"
 
-  private readonly _isValidPasswordConfirm = signal(true)
-  public get isValidPasswordConfirm(): boolean {
-    return this._isValidPasswordConfirm()
-  }
+  public isValidPasswordConfirm = true
 
   public ngOnInit(): void {
-    this.customerForm.valueChanges.subscribe(() => {
-      const { password, passwordConfirmation } = this.customerForm.value
-      this._isValidPasswordConfirm.set(password === passwordConfirmation)
+    this.customerForm.valueChanges.subscribe({
+      next: () => {
+        const { password, passwordConfirmation } = this.customerForm.value
+        this.isValidPasswordConfirm = password === passwordConfirmation
 
-      if (!this.customerForm.valid) {
-        this._isSuccess.set(false)
-      }
+        if (!this.customerForm.valid) {
+          this.status = "idle"
+        }
+      },
     })
   }
 
@@ -74,12 +73,17 @@ export class CustomerSignUpPageComponent implements OnInit {
     if (!this.customerForm.valid || !this.isValidPasswordConfirm) {
       return
     }
-
+    this.status = "pending"
     const customer = this.customerForm.value as CustomerSignUp
-    this.customerService.signUp(customer).subscribe(() => {
-      this.customerForm.reset()
-      this.customerForm.controls.gender.setValue(this.initialGender)
-      this._isSuccess.set(true)
+    this.customerService.signUp(customer).subscribe({
+      next: () => {
+        this.customerForm.reset()
+        this.customerForm.controls.gender.setValue(this.initialGender)
+        this.status = "success"
+      },
+      error: () => {
+        this.status = "error"
+      },
     })
   }
 }

@@ -13,6 +13,8 @@ export type Primitive =
 export type OmitStrict<T, K extends keyof T> = Omit<T, K>
 export type PickStrict<T, K extends keyof T> = Pick<T, K>
 
+export type Status = "error" | "idle" | "pending" | "success"
+
 /**
  * Capitalize the first letter of a string.
  * @param string

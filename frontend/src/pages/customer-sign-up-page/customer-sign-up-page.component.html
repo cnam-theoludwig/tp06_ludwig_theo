@@ -251,29 +251,52 @@
     </div>
 
     <div class="text-center my-8">
-      <button appButton type="submit" [disabled]="!customerForm.valid">
+      <button
+        appButton
+        type="submit"
+        [disabled]="
+          !customerForm.valid ||
+          (!isValidPasswordConfirm &&
+            customerForm.controls.password.dirty &&
+            customerForm.controls.passwordConfirmation.dirty) ||
+          status === 'pending'
+        "
+      >
         Créer un compte
       </button>
     </div>
+  </form>
 
+  <div class="text-center flex justify-center items-center my-4">
     @if (
       !isValidPasswordConfirm &&
       customerForm.controls.password.dirty &&
       customerForm.controls.passwordConfirmation.dirty
     ) {
       <p class="error-message text-center !text-base">
-        Les mots de passe ne correspondent pas.
+        <strong>Erreur:</strong>
+        <span> Les mots de passe ne correspondent pas.</span>
       </p>
     }
-  </form>
 
-  @if (isSuccess) {
-    <p class="text-center">
-      <strong class="text-success">Succès:</strong>
-      <span>
-        Vous pouvez maintenant
-        <a routerLink="/sign-in" class="text-primary"> vous connecter </a>.
-      </span>
-    </p>
-  }
+    @if (status === "pending") {
+      <app-spinner [size]="40"></app-spinner>
+    }
+    @if (status === "error") {
+      <p class="error-message !text-base">
+        <strong>Erreur:</strong>
+        <span> Email déjà prise ou valeurs invalides.</span>
+      </p>
+    }
+
+    @if (status === "success") {
+      <p class="text-center">
+        <strong class="text-success">Succès:</strong>
+        <span>
+          Vous pouvez maintenant
+          <a routerLink="/sign-in" class="text-primary"> vous connecter </a>.
+        </span>
+      </p>
+    }
+  </div>
 </section>

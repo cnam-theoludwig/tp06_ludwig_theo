@@ -8,6 +8,7 @@ import {
 } from "../actions/CartActions"
 import type { Product, ProductWithQuantity } from "@repo/shared/Product"
 import type { Cart } from "@repo/shared/Cart"
+import type { PickStrict } from "@repo/shared/utils"
 
 @State<Cart>({
   name: "cart",
@@ -38,7 +39,7 @@ export class CartState {
 
   @Selector()
   public static getProductQuantity(
-    product: Pick<Product, "id">,
+    product: PickStrict<Product, "id">,
   ): ({ cart }: { cart: Cart }) => number {
     return createSelector([CartState], ({ cart }: { cart: Cart }) => {
       const productInCart = cart.products.find((current) => {

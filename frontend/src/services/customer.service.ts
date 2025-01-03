@@ -43,11 +43,15 @@ export class CustomerService {
       `${environment.apiBaseURL}/customer/sign-in`,
       input,
     )
-    const subscription = observable.subscribe((authState) => {
-      this._accessTokenJWT = authState.accessToken
-      localStorage.setItem(AUTH_TOKEN_NAME, this._accessTokenJWT)
-      this._customer.set(authState.customer)
-      subscription.unsubscribe()
+    const subscription = observable.subscribe({
+      next: (authState) => {
+        this._accessTokenJWT = authState.accessToken
+        localStorage.setItem(AUTH_TOKEN_NAME, this._accessTokenJWT)
+        this._customer.set(authState.customer)
+      },
+      complete: () => {
+        subscription.unsubscribe()
+      },
     })
     return observable
   }
@@ -65,9 +69,13 @@ export class CustomerService {
       `${environment.apiBaseURL}/customer`,
       input,
     )
-    const subscription = observable.subscribe((customer) => {
-      this._customer.set(customer)
-      subscription.unsubscribe()
+    const subscription = observable.subscribe({
+      next: (customer) => {
+        this._customer.set(customer)
+      },
+      complete: () => {
+        subscription.unsubscribe()
+      },
     })
     return observable
   }
@@ -81,11 +89,15 @@ export class CustomerService {
     }
     const subscription = this.http
       .get<AuthState>(`${environment.apiBaseURL}/customer`)
-      .subscribe((authState) => {
-        this._accessTokenJWT = authState.accessToken
-        this._customer.set(authState.customer)
-        this._isLoadingAuthCurrent.set(false)
-        subscription.unsubscribe()
+      .subscribe({
+        next: (authState) => {
+          this._accessTokenJWT = authState.accessToken
+          this._customer.set(authState.customer)
+          this._isLoadingAuthCurrent.set(false)
+        },
+        complete: () => {
+          subscription.unsubscribe()
+        },
       })
   }
 

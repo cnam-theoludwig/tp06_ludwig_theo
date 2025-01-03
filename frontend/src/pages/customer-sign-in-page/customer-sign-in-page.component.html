@@ -54,8 +54,24 @@
       }
     </div>
 
+    <div class="text-center flex justify-center items-center my-4">
+      @if (status === "pending") {
+        <app-spinner [size]="40"></app-spinner>
+      }
+      @if (status === "error") {
+        <p class="error-message !text-base">
+          <strong>Erreur:</strong>
+          <span> Email ou Mot de passe invalide.</span>
+        </p>
+      }
+    </div>
+
     <div class="text-center my-8">
-      <button appButton type="submit" [disabled]="!customerForm.valid">
+      <button
+        appButton
+        type="submit"
+        [disabled]="!customerForm.valid || status === 'pending'"
+      >
         Se connecter
       </button>
     </div>

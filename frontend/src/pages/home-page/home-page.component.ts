@@ -60,9 +60,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
         }),
         distinctUntilChanged(),
       )
-      .subscribe((query) => {
-        this.isLoading = true
-        this.queryParams$.next(query)
+      .subscribe({
+        next: (query) => {
+          this.isLoading = true
+          this.queryParams$.next(query)
+        },
       })
 
     this.products$ = merge(
