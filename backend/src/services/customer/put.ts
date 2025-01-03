@@ -13,7 +13,7 @@ export const putCustomerUpdate: FastifyPluginAsync = async (fastify) => {
       if (input.error != null) {
         throw fastify.httpErrors.createError(400, input.error.errors)
       }
-      return "OK"
+      return { isSuccess: true }
     },
   })
 }

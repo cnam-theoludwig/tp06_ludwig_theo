@@ -3,7 +3,7 @@ import { cva } from "cva"
 import { classNames } from "../../utils/classNames"
 
 const selectVariants = cva({
-  base: "py-3 px-4 pe-9 block rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none border border-black",
+  base: "py-2 px-4 pe-9 block rounded-lg text-sm focus:border-primary focus:ring-primary disabled:opacity-50 disabled:pointer-events-none border border-black",
 })
 
 @Directive({

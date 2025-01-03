@@ -11,7 +11,7 @@ export const postCustomerSignUp: FastifyPluginAsync = async (fastify) => {
         throw fastify.httpErrors.createError(400, input.error.errors)
       }
       response.statusCode = 201
-      return "OK"
+      return { isSuccess: true }
     },
   })
 }

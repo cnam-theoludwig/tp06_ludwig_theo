@@ -1,0 +1,63 @@
+<section class="my-6">
+  <div class="text-center">
+    <h2>Connexion</h2>
+    <p class="text-sm mt-2">Vous êtes nouveau ?</p>
+    <a routerLink="/sign-up" class="text-sm text-primary"> Inscription </a>
+  </div>
+
+  <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+    <div class="input-container">
+      <label appLabel for="email">Email</label>
+      <input
+        appInput
+        formControlName="email"
+        type="email"
+        id="email"
+        name="email"
+        placeholder="jean.dupont@gmail.com"
+        required
+        [state]="
+          customerForm.controls.email.valid ||
+          !customerForm.controls.email.dirty
+            ? 'idle'
+            : 'error'
+        "
+      />
+      @if (
+        !customerForm.controls.email.valid && customerForm.controls.email.dirty
+      ) {
+        <p class="error-message">Veuillez saisir une adresse email valide.</p>
+      }
+    </div>
+
+    <div class="input-container">
+      <label appLabel for="password">Mot de passe</label>
+      <input
+        appInput
+        formControlName="password"
+        type="password"
+        id="password"
+        name="password"
+        required
+        [state]="
+          customerForm.controls.password.valid ||
+          !customerForm.controls.password.dirty
+            ? 'idle'
+            : 'error'
+        "
+      />
+      @if (
+        !customerForm.controls.password.valid &&
+        customerForm.controls.password.dirty
+      ) {
+        <p class="error-message">Le mot de passe est obligatoire.</p>
+      }
+    </div>
+
+    <div class="text-center my-8">
+      <button appButton type="submit" [disabled]="!customerForm.valid">
+        Se connecter
+      </button>
+    </div>
+  </form>
+</section>

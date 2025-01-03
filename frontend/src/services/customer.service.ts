@@ -21,12 +21,13 @@ export class CustomerService {
   private readonly _customer = signal<Customer | null>(null)
   private readonly _isLoadingAuthCurrent = signal<boolean>(true)
 
+  /**
+   * The current authenticated customer.
+   *
+   * If the customer is not authenticated, this will be `null`.
+   */
   public get customer(): Customer | null {
     return this._customer()
-  }
-
-  public get isAuthenticated(): boolean {
-    return this.customer != null
   }
 
   public get isLoadingAuthCurrent(): boolean {
@@ -45,16 +46,14 @@ export class CustomerService {
     const subscription = observable.subscribe((authState) => {
       this._accessTokenJWT = authState.accessToken
       localStorage.setItem(AUTH_TOKEN_NAME, this._accessTokenJWT)
-      this._customer.update(() => {
-        return authState.customer
-      })
+      this._customer.set(authState.customer)
       subscription.unsubscribe()
     })
     return observable
   }
 
-  public signUp(input: CustomerSignUp): Observable<"OK"> {
-    const observable = this.http.post<"OK">(
+  public signUp(input: CustomerSignUp): Observable<{ isSuccess: boolean }> {
+    const observable = this.http.post<{ isSuccess: boolean }>(
       `${environment.apiBaseURL}/customer/sign-up`,
       input,
     )
@@ -67,35 +66,25 @@ export class CustomerService {
       input,
     )
     const subscription = observable.subscribe((customer) => {
-      this._customer.update(() => {
-        return customer
-      })
+      this._customer.set(customer)
       subscription.unsubscribe()
     })
     return observable
   }
 
   public getAuthCurrent(): void {
-    this._isLoadingAuthCurrent.update(() => {
-      return true
-    })
+    this._isLoadingAuthCurrent.set(true)
     this._accessTokenJWT = localStorage.getItem(AUTH_TOKEN_NAME)
     if (this._accessTokenJWT == null) {
-      this._isLoadingAuthCurrent.update(() => {
-        return false
-      })
+      this._isLoadingAuthCurrent.set(false)
       return
     }
     const subscription = this.http
       .get<AuthState>(`${environment.apiBaseURL}/customer`)
       .subscribe((authState) => {
         this._accessTokenJWT = authState.accessToken
-        this._customer.update(() => {
-          return authState.customer
-        })
-        this._isLoadingAuthCurrent.update(() => {
-          return false
-        })
+        this._customer.set(authState.customer)
+        this._isLoadingAuthCurrent.set(false)
         subscription.unsubscribe()
       })
   }
@@ -103,8 +92,6 @@ export class CustomerService {
   public signOut(): void {
     this._accessTokenJWT = null
     localStorage.removeItem(AUTH_TOKEN_NAME)
-    this._customer.update(() => {
-      return null
-    })
+    this._customer.set(null)
   }
 }

@@ -1,0 +1,7 @@
+.navLink {
+  @apply transition duration-300 hover:scale-110 cursor-pointer;
+
+  & > div {
+    @apply flex gap-2 h-11 px-2 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors;
+  }
+}

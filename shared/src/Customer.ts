@@ -1,42 +1,28 @@
-import { z } from "zod"
-import { capitalize } from "@repo/shared/utils"
 import { createUnionZod, EntityZod } from "@repo/shared/Entity"
+import { capitalize } from "@repo/shared/utils"
+import { z } from "zod"
 
 export const CUSTOMER_GENDERS = ["man", "woman", "other"] as const
 export type CustomerGender = (typeof CUSTOMER_GENDERS)[number]
-
-// export interface Customer {
-//   firstName: string
-//   lastName: string
-//   address: string
-//   zipCode: string
-//   city: string
-//   phone: string
-//   gender: CustomerGender
-//   email: string
-//   password: string
-//   passwordConfirmation: string
-// }
 
 export const CustomerZod = {
   id: EntityZod.id,
   firstName: z
     .string()
     .trim()
-    .min(2)
+    .min(1)
     .max(50)
     .transform((value) => {
       return capitalize(value)
     }),
-  lastName: z.string().trim().min(2).max(50).toUpperCase(),
+  lastName: z.string().trim().min(1).max(50).toUpperCase(),
   gender: createUnionZod(CUSTOMER_GENDERS),
   email: z.string().trim().min(3).max(255).email(),
-  address: z.string().trim().min(2).max(255),
-  city: z.string().trim().min(2).max(255),
-  zipCode: z.string().trim().min(2),
+  address: z.string().trim().min(1).max(255),
+  city: z.string().trim().min(1).max(255),
+  zipCode: z.string().trim().min(1),
   phone: z.string().regex(/0[1-9]\d{8}/),
-  password: z.string().min(4),
-  // passwordConfirmation: z.string().min(4),
+  password: z.string().min(1),
 }
 
 export const CustomerZodObject = z.object(CustomerZod)
@@ -57,7 +43,7 @@ export const CustomerUpdateZodObject = CustomerZodObject.omit({
 })
 export type CustomerUpdate = z.infer<typeof CustomerUpdateZodObject>
 
-export const AUTH_TOKEN_HEADER = "Authorization"
+export const AUTH_TOKEN_HEADER = "authorization"
 export const AUTH_TOKEN_TYPE = "Bearer"
 export const AUTH_TOKEN_NAME = "accessTokenJWT"
 

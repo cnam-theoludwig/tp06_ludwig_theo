@@ -16,6 +16,24 @@ export const routes: Routes = [
     },
   },
   {
+    path: "sign-up",
+    loadComponent: async () => {
+      const { CustomerSignUpPageComponent } = await import(
+        "../pages/customer-sign-up-page/customer-sign-up-page.component"
+      )
+      return CustomerSignUpPageComponent
+    },
+  },
+  {
+    path: "sign-in",
+    loadComponent: async () => {
+      const { CustomerSignInPageComponent } = await import(
+        "../pages/customer-sign-in-page/customer-sign-in-page.component"
+      )
+      return CustomerSignInPageComponent
+    },
+  },
+  {
     path: "**",
     loadComponent: async () => {
       const { NotFoundPageComponent } = await import(
