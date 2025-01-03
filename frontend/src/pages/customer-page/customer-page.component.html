@@ -1,0 +1,15 @@
+<section class="my-6">
+  <div class="text-center">
+    <h2>{{ customer?.firstName }} {{ customer?.lastName }}</h2>
+
+    <button
+      class="my-8"
+      appButton
+      type="button"
+      [variant]="'error-outline'"
+      (click)="handleSignOut()"
+    >
+      Se déconnecter
+    </button>
+  </div>
+</section>

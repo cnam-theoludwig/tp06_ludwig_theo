@@ -18,16 +18,12 @@ export class InputSearchComponent {
   @Output()
   public changeSearch = new EventEmitter<string>()
 
-  @Output()
-  public handleClear = new EventEmitter<void>()
-
   public handleInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement
     this.changeSearch.emit(inputElement.value)
   }
 
   public clearSearch(): void {
-    this.handleClear.emit()
     this.changeSearch.emit("")
   }
 }

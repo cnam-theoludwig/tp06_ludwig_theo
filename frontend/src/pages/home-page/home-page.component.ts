@@ -93,6 +93,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   public async handleSearch(search: string): Promise<void> {
+    if (search === "" && this.queryParams$.value.search === "") {
+      return
+    }
     this.isLoading = true
     await this.router.navigate([], {
       queryParams: { search },

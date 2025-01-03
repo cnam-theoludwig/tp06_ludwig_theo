@@ -38,6 +38,23 @@
     "start": {
       "dependsOn": ["build"],
       "persistent": true
+    },
+    "database:seed:make": {
+      "cache": false
+    },
+    "database:seed": {
+      "dependsOn": ["database:migrate"],
+      "cache": false
+    },
+    "database:migrate:make": {
+      "cache": false
+    },
+    "database:migrate": {
+      "cache": false
+    },
+    "database:codegen": {
+      "dependsOn": ["database:migrate"],
+      "cache": false
     }
   }
 }

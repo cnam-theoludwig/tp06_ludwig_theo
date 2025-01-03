@@ -34,6 +34,15 @@ export const routes: Routes = [
     },
   },
   {
+    path: "customer",
+    loadComponent: async () => {
+      const { CustomerPageComponent } = await import(
+        "../pages/customer-page/customer-page.component"
+      )
+      return CustomerPageComponent
+    },
+  },
+  {
     path: "**",
     loadComponent: async () => {
       const { NotFoundPageComponent } = await import(

@@ -18,7 +18,7 @@ export class CustomerService {
   public constructor(private readonly http: HttpClient) {}
 
   private _accessTokenJWT: string | null = null
-  private readonly _customer = signal<Customer | null>(null)
+  private readonly _customer = signal<AuthState["customer"] | null>(null)
   private readonly _isLoadingAuthCurrent = signal<boolean>(true)
 
   /**
@@ -26,7 +26,7 @@ export class CustomerService {
    *
    * If the customer is not authenticated, this will be `null`.
    */
-  public get customer(): Customer | null {
+  public get customer(): AuthState["customer"] | null {
     return this._customer()
   }
 
@@ -93,5 +93,6 @@ export class CustomerService {
     this._accessTokenJWT = null
     localStorage.removeItem(AUTH_TOKEN_NAME)
     this._customer.set(null)
+    this._isLoadingAuthCurrent.set(false)
   }
 }

@@ -1,5 +1,6 @@
 import { createUnionZod, EntityZod } from "@repo/shared/Entity"
 import { capitalize } from "@repo/shared/utils"
+import type { OmitStrict } from "@repo/shared/utils"
 import { z } from "zod"
 
 export const CUSTOMER_GENDERS = ["man", "woman", "other"] as const
@@ -20,7 +21,7 @@ export const CustomerZod = {
   email: z.string().trim().min(3).max(255).email(),
   address: z.string().trim().min(1).max(255),
   city: z.string().trim().min(1).max(255),
-  zipCode: z.string().trim().min(1),
+  zipCode: z.string().trim().min(1).max(25),
   phone: z.string().regex(/0[1-9]\d{8}/),
   password: z.string().min(1),
 }
@@ -40,6 +41,7 @@ export type CustomerSignUp = z.infer<typeof CustomerSignUpZodObject>
 export const CustomerUpdateZodObject = CustomerZodObject.omit({
   id: true,
   email: true,
+  password: true,
 })
 export type CustomerUpdate = z.infer<typeof CustomerUpdateZodObject>
 
@@ -61,5 +63,5 @@ export interface AuthJWT {
 export interface AuthState {
   accessToken: string
   authJWT: AuthJWT
-  customer: Customer
+  customer: OmitStrict<Customer, "password">
 }

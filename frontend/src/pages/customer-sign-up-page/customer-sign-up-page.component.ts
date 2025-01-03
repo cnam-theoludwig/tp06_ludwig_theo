@@ -49,7 +49,7 @@ export class CustomerSignUpPageComponent implements OnInit {
     ),
   })
 
-  private readonly _isSuccess = signal(true)
+  private readonly _isSuccess = signal(false)
   public get isSuccess(): boolean {
     return this._isSuccess()
   }
@@ -63,7 +63,10 @@ export class CustomerSignUpPageComponent implements OnInit {
     this.customerForm.valueChanges.subscribe(() => {
       const { password, passwordConfirmation } = this.customerForm.value
       this._isValidPasswordConfirm.set(password === passwordConfirmation)
-      this._isSuccess.set(this.customerForm.valid)
+
+      if (!this.customerForm.valid) {
+        this._isSuccess.set(false)
+      }
     })
   }
 

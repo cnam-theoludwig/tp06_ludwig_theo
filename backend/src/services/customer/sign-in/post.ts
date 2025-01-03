@@ -6,6 +6,8 @@ import {
 import type { FastifyPluginAsync } from "fastify"
 import jwt from "jsonwebtoken"
 import { AUTH_JWT_SECRET } from "../../../configuration.ts"
+import { database } from "../../../database/database.ts"
+import bcrypt from "bcryptjs"
 
 export const postCustomerSignIn: FastifyPluginAsync = async (fastify) => {
   fastify.route({
@@ -16,28 +18,50 @@ export const postCustomerSignIn: FastifyPluginAsync = async (fastify) => {
       if (input.error != null) {
         throw fastify.httpErrors.createError(400, input.error.errors)
       }
-      const authJWT: AuthJWT = {
-        customerId: 1,
+
+      const customer = await database
+        .selectFrom("Customer")
+        .select([
+          "id",
+          "firstName",
+          "lastName",
+          "gender",
+          "email",
+          "address",
+          "zipCode",
+          "city",
+          "phone",
+          "password",
+        ])
+        .where("email", "=", input.data.email)
+        .executeTakeFirst()
+      if (customer == null) {
+        throw fastify.httpErrors.createError(
+          401,
+          "Invalid `email` or `password`.",
+        )
       }
-      const token = jwt.sign(authJWT, AUTH_JWT_SECRET, {
+      const isCorrectPassword = await bcrypt.compare(
+        input.data.password,
+        customer.password,
+      )
+      if (!isCorrectPassword) {
+        throw fastify.httpErrors.createError(
+          401,
+          "Invalid `email` or `password`.",
+        )
+      }
+
+      const authJWT: AuthJWT = {
+        customerId: customer.id,
+      }
+      const accessToken = jwt.sign(authJWT, AUTH_JWT_SECRET, {
         expiresIn: AUTH_ACCESS_TOKEN_MAX_AGE_SECONDS,
       })
       const authState: AuthState = {
         authJWT,
-        accessToken: token,
-        // TODO: Implement the logic to get the session from the database
-        customer: {
-          id: 1,
-          firstName: "John",
-          lastName: "Doe",
-          address: "5 Rue d'Angular",
-          zipCode: "12345",
-          city: "Strasbourg",
-          phone: "0712345678",
-          gender: "man",
-          email: "john@doe.com",
-          password: "password",
-        },
+        accessToken,
+        customer,
       }
       return authState
     },

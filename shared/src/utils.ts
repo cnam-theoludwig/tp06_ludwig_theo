@@ -10,6 +10,9 @@ export type Primitive =
   | symbol
   | bigint
 
+export type OmitStrict<T, K extends keyof T> = Omit<T, K>
+export type PickStrict<T, K extends keyof T> = Pick<T, K>
+
 /**
  * Capitalize the first letter of a string.
  * @param string

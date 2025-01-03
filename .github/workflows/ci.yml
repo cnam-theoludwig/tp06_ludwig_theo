@@ -21,8 +21,8 @@ jobs:
 
       - run: "npm clean-install"
 
-      - run: "npm run lint:typescript"
-      - run: "npm run lint:eslint"
-      - run: "npm run lint:prettier"
-      - run: "npm run build"
-      - run: "npm run test"
+      - run: "node --run lint:typescript"
+      - run: "node --run lint:eslint"
+      - run: "node --run lint:prettier"
+      - run: "node --run build"
+      - run: "node --run test"

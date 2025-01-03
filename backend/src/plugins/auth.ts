@@ -1,13 +1,14 @@
-import jwt from "jsonwebtoken"
-import fastifyPlugin from "fastify-plugin"
-import { AUTH_TOKEN_HEADER, AUTH_TOKEN_TYPE } from "@repo/shared/Customer"
-import type { AuthJWT, AuthState } from "@repo/shared/Customer"
-import { AUTH_JWT_SECRET } from "../configuration.ts"
 import { httpErrors } from "@fastify/sensible"
+import type { AuthJWT, AuthState } from "@repo/shared/Customer"
+import { AUTH_TOKEN_HEADER, AUTH_TOKEN_TYPE } from "@repo/shared/Customer"
+import type { OmitStrict } from "@repo/shared/utils"
+import fastifyPlugin from "fastify-plugin"
+import jwt from "jsonwebtoken"
+import { AUTH_JWT_SECRET } from "../configuration.ts"
 
 declare module "fastify" {
   export interface FastifyRequest {
-    auth?: AuthState
+    auth?: OmitStrict<AuthState, "customer">
   }
 }
 
@@ -19,29 +20,19 @@ export const authPlugin = fastifyPlugin(async (fastify) => {
       throw httpErrors.unauthorized()
     }
 
-    const [type, token] = authorization.split(" ")
-    if (type !== AUTH_TOKEN_TYPE || token == null) {
+    const [type, accessToken] = authorization.split(" ")
+    if (type !== AUTH_TOKEN_TYPE || accessToken == null) {
       throw httpErrors.unauthorized()
     }
 
     try {
-      const authJWT = jwt.verify(token, AUTH_JWT_SECRET) as unknown as AuthJWT
+      const authJWT = jwt.verify(
+        accessToken,
+        AUTH_JWT_SECRET,
+      ) as unknown as AuthJWT
       request.auth = {
         authJWT,
-        accessToken: token,
-        // TODO: Implement the logic to get the session from the database
-        customer: {
-          id: 1,
-          firstName: "John",
-          lastName: "Doe",
-          address: "5 Rue d'Angular",
-          zipCode: "12345",
-          city: "Strasbourg",
-          phone: "0712345678",
-          gender: "man",
-          email: "john@doe.com",
-          password: "password",
-        },
+        accessToken,
       }
     } catch {
       throw httpErrors.unauthorized()
