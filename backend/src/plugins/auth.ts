@@ -26,10 +26,7 @@ export const authPlugin = fastifyPlugin(async (fastify) => {
     }
 
     try {
-      const authJWT = jwt.verify(
-        accessToken,
-        AUTH_JWT_SECRET,
-      ) as unknown as AuthJWT
+      const authJWT = jwt.verify(accessToken, AUTH_JWT_SECRET) as AuthJWT
       request.auth = {
         authJWT,
         accessToken,

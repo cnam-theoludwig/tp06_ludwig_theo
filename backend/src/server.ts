@@ -5,6 +5,7 @@ import prettyMilliseconds from "pretty-ms"
 
 import { application } from "./application.ts"
 import { HOST, PORT, VERSION } from "./configuration.ts"
+import { database } from "./database/database.ts"
 
 const address = await application.listen({
   port: PORT,
@@ -12,6 +13,7 @@ const address = await application.listen({
 })
 const gracefulShutdown = async (): Promise<void> => {
   await application.close()
+  await database.destroy()
   process.exit(0)
 }
 process.on("SIGTERM", gracefulShutdown)
