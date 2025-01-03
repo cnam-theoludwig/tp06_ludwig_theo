@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { Component, effect } from "@angular/core"
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms"
 import { Router } from "@angular/router"
 import type { CustomerUpdate } from "@repo/shared/Customer"
@@ -10,8 +10,8 @@ import { InputDirective } from "../../directives/input/input.directive"
 import { LabelDirective } from "../../directives/label/label.directive"
 import { SelectDirective } from "../../directives/select/select.directive"
 import { CustomerService } from "../../services/customer.service"
-import { zodValidator } from "../../utils/forms"
 import type { FormGroupFromType } from "../../utils/forms"
+import { zodValidator } from "../../utils/forms"
 
 @Component({
   selector: "app-customer-page",
@@ -32,37 +32,41 @@ export class CustomerPageComponent {
     private readonly customerService: CustomerService,
     private readonly router: Router,
   ) {
-    this.initalizeForm()
+    this.initalizeForm(this.customer)
+
+    effect(() => {
+      this.initalizeForm(this.customer)
+    })
   }
 
-  private initalizeForm(): void {
+  private initalizeForm(customer: CustomerUpdate | null): void {
     this.customerForm = new FormGroup({
       firstName: new FormControl(
-        this.customer?.firstName ?? "",
+        customer?.firstName ?? "",
         zodValidator(CustomerZod.firstName),
       ),
       lastName: new FormControl(
-        this.customer?.lastName ?? "",
+        customer?.lastName ?? "",
         zodValidator(CustomerZod.lastName),
       ),
       address: new FormControl(
-        this.customer?.address ?? "",
+        customer?.address ?? "",
         zodValidator(CustomerZod.address),
       ),
       zipCode: new FormControl(
-        this.customer?.zipCode ?? "",
+        customer?.zipCode ?? "",
         zodValidator(CustomerZod.zipCode),
       ),
       city: new FormControl(
-        this.customer?.city ?? "",
+        customer?.city ?? "",
         zodValidator(CustomerZod.city),
       ),
       phone: new FormControl(
-        this.customer?.phone ?? "",
+        customer?.phone ?? "",
         zodValidator(CustomerZod.phone),
       ),
       gender: new FormControl(
-        this.customer?.gender ?? "man",
+        customer?.gender ?? "man",
         zodValidator(CustomerZod.gender),
       ),
     })
@@ -72,6 +76,10 @@ export class CustomerPageComponent {
 
   public get customer(): CustomerService["customer"] {
     return this.customerService.customer
+  }
+
+  public get isLoadingAuthCurrent(): CustomerService["isLoadingAuthCurrent"] {
+    return this.customerService.isLoadingAuthCurrent
   }
 
   public status: Status = "idle"
@@ -85,7 +93,7 @@ export class CustomerPageComponent {
     this.customerService.update(customer).subscribe({
       next: () => {
         this.customerForm.reset(customer)
-        this.initalizeForm()
+        this.initalizeForm(customer)
         this.status = "success"
       },
       error: () => {
