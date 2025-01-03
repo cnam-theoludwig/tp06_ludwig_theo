@@ -1,7 +1,8 @@
-import type { FastifyPluginAsync } from "fastify"
-import { authPlugin } from "../../plugins/auth.ts"
+import type { AuthState } from "@repo/shared/Customer"
 import { CustomerUpdateZodObject } from "@repo/shared/Customer"
+import type { FastifyPluginAsync } from "fastify"
 import { database } from "../../database/database.ts"
+import { authPlugin } from "../../plugins/auth.ts"
 
 export const putCustomerUpdate: FastifyPluginAsync = async (fastify) => {
   await fastify.register(authPlugin)
@@ -17,12 +18,24 @@ export const putCustomerUpdate: FastifyPluginAsync = async (fastify) => {
       if (input.error != null) {
         throw fastify.httpErrors.createError(400, input.error.errors)
       }
-      await database
+
+      const result: AuthState["customer"] = await database
         .updateTable("Customer")
         .set(input.data)
         .where("id", "=", request.auth.authJWT.customerId)
+        .returning([
+          "id",
+          "firstName",
+          "lastName",
+          "gender",
+          "email",
+          "address",
+          "zipCode",
+          "city",
+          "phone",
+        ])
         .executeTakeFirstOrThrow()
-      return { isSuccess: true }
+      return result
     },
   })
 }

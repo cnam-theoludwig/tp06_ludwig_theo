@@ -1,15 +1,14 @@
-import { Injectable, signal } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
-import { AUTH_TOKEN_NAME } from "@repo/shared/Customer"
+import { Injectable, signal } from "@angular/core"
 import type {
   AuthState,
-  Customer,
   CustomerSignIn,
   CustomerSignUp,
   CustomerUpdate,
 } from "@repo/shared/Customer"
-import { environment } from "../environments/environment"
+import { AUTH_TOKEN_NAME } from "@repo/shared/Customer"
 import type { Observable } from "rxjs"
+import { environment } from "../environments/environment"
 
 @Injectable({
   providedIn: "root",
@@ -64,8 +63,8 @@ export class CustomerService {
     return observable
   }
 
-  public update(input: CustomerUpdate): Observable<Customer> {
-    const observable = this.http.put<Customer>(
+  public update(input: CustomerUpdate): Observable<AuthState["customer"]> {
+    const observable = this.http.put<AuthState["customer"]>(
       `${environment.apiBaseURL}/customer`,
       input,
     )

@@ -11,7 +11,8 @@ import { InputDirective } from "../../directives/input/input.directive"
 import { LabelDirective } from "../../directives/label/label.directive"
 import { SelectDirective } from "../../directives/select/select.directive"
 import { CustomerService } from "../../services/customer.service"
-import { zodValidator } from "../../utils/zodValidator"
+import { zodValidator } from "../../utils/forms"
+import type { FormGroupFromType } from "../../utils/forms"
 
 @Component({
   selector: "app-customer-sign-up-page",
@@ -29,28 +30,36 @@ import { zodValidator } from "../../utils/zodValidator"
   styleUrl: "./customer-sign-up-page.component.css",
 })
 export class CustomerSignUpPageComponent implements OnInit {
-  public constructor(private readonly customerService: CustomerService) {}
+  public constructor(private readonly customerService: CustomerService) {
+    this.customerForm = new FormGroup({
+      firstName: new FormControl("", zodValidator(CustomerZod.firstName)),
+      lastName: new FormControl("", zodValidator(CustomerZod.lastName)),
+      address: new FormControl("", zodValidator(CustomerZod.address)),
+      zipCode: new FormControl("", zodValidator(CustomerZod.zipCode)),
+      city: new FormControl("", zodValidator(CustomerZod.city)),
+      phone: new FormControl("", zodValidator(CustomerZod.phone)),
+      gender: new FormControl(
+        this.initialGender,
+        zodValidator(CustomerZod.gender),
+      ),
+      email: new FormControl("", zodValidator(CustomerZod.email)),
+      password: new FormControl("", zodValidator(CustomerZod.password)),
+      passwordConfirmation: new FormControl(
+        "",
+        zodValidator(CustomerZod.password),
+      ),
+    })
+  }
 
-  private readonly initialGender = "man"
+  private readonly initialGender: CustomerSignUp["gender"] = "man"
 
-  public customerForm = new FormGroup({
-    firstName: new FormControl("", zodValidator(CustomerZod.firstName)),
-    lastName: new FormControl("", zodValidator(CustomerZod.lastName)),
-    address: new FormControl("", zodValidator(CustomerZod.address)),
-    zipCode: new FormControl("", zodValidator(CustomerZod.zipCode)),
-    city: new FormControl("", zodValidator(CustomerZod.city)),
-    phone: new FormControl("", zodValidator(CustomerZod.phone)),
-    gender: new FormControl(
-      this.initialGender,
-      zodValidator(CustomerZod.gender),
-    ),
-    email: new FormControl("", zodValidator(CustomerZod.email)),
-    password: new FormControl("", zodValidator(CustomerZod.password)),
-    passwordConfirmation: new FormControl(
-      "",
-      zodValidator(CustomerZod.password),
-    ),
-  })
+  public customerForm: FormGroup<
+    FormGroupFromType<
+      CustomerSignUp & {
+        passwordConfirmation: CustomerSignUp["password"]
+      }
+    >
+  >
 
   public status: Status = "idle"
 

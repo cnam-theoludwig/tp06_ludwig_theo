@@ -1,5 +1,5 @@
-import { Component } from "@angular/core"
 import type { OnInit } from "@angular/core"
+import { Component } from "@angular/core"
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms"
 import { Router, RouterLink } from "@angular/router"
 import type { CustomerSignIn } from "@repo/shared/Customer"
@@ -10,7 +10,8 @@ import { ButtonDirective } from "../../directives/button/button.directive"
 import { InputDirective } from "../../directives/input/input.directive"
 import { LabelDirective } from "../../directives/label/label.directive"
 import { CustomerService } from "../../services/customer.service"
-import { zodValidator } from "../../utils/zodValidator"
+import { zodValidator } from "../../utils/forms"
+import type { FormGroupFromType } from "../../utils/forms"
 
 @Component({
   selector: "app-customer-sign-in-page",
@@ -30,14 +31,16 @@ export class CustomerSignInPageComponent implements OnInit {
   public constructor(
     private readonly customerService: CustomerService,
     private readonly router: Router,
-  ) {}
+  ) {
+    this.customerForm = new FormGroup({
+      email: new FormControl("", zodValidator(CustomerZod.email)),
+      password: new FormControl("", zodValidator(CustomerZod.password)),
+    })
+  }
+
+  public customerForm: FormGroup<FormGroupFromType<CustomerSignIn>>
 
   public status: Status = "idle"
-
-  public customerForm = new FormGroup({
-    email: new FormControl("", zodValidator(CustomerZod.email)),
-    password: new FormControl("", zodValidator(CustomerZod.password)),
-  })
 
   public ngOnInit(): void {
     this.customerForm.valueChanges.subscribe({
