@@ -19,6 +19,10 @@ services:
     repo: "https://github.com/cnam-theoludwig/tp06_ludwig_theo.git"
     buildCommand: "npm clean-install; node --run build"
     staticPublishPath: "./frontend/dist/tp06_ludwig_theo/browser"
+    routes:
+      - type: "rewrite"
+        source: "/*"
+        destination: "/index.html"
 
 databases:
   - name: "cnamTP06-database"
