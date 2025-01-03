@@ -1,7 +1,15 @@
 import packageJSON from "../package.json" with { type: "json" }
+import path from "node:path"
 
 export const NODE_ENV = process.env["NODE_ENV"] ?? "development"
 export const IS_PRODUCTION = NODE_ENV === "production"
+
+if (!IS_PRODUCTION) {
+  const envRootPath = path.join(process.cwd(), ".env")
+  console.log(`Loading env file from ${envRootPath}`)
+  console.log()
+  process.loadEnvFile(envRootPath)
+}
 
 export const VERSION = packageJSON.version
 

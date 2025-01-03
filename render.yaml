@@ -22,4 +22,5 @@ services:
 
 databases:
   - name: "cnamTP06-database"
+    region: "frankfurt"
     plan: "free"

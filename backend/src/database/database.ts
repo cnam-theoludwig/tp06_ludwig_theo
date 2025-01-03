@@ -2,11 +2,16 @@ import { Kysely } from "kysely"
 import { PostgresJSDialect } from "kysely-postgres-js"
 import postgres from "postgres"
 import prettyMilliseconds from "pretty-ms"
-import { DATABASE_DEBUG, DATABASE_URL } from "../configuration.ts"
+import {
+  DATABASE_DEBUG,
+  DATABASE_URL,
+  IS_PRODUCTION,
+} from "../configuration.ts"
 import type { Database } from "./types.ts"
 
 const dialect = new PostgresJSDialect({
   postgres: postgres(DATABASE_URL, {
+    ssl: IS_PRODUCTION,
     types: {
       // Numbers, bigint, numeric:
       // - https://github.com/porsager/postgres#numbers-bigint-numeric
